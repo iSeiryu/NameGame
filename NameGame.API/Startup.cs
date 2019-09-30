@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using NameGame.API.Infrastructure;
 using NameGame.Domain.Services;
 using NameGame.Domain.Services.Interfaces;
 using System;
@@ -25,8 +26,7 @@ namespace NameGame
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddTransient<IGameService, GameService>();
+            services.SetupDependencyInjection(Configuration);
 
             services.AddSwaggerGen(c =>
             {

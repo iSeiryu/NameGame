@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameGame.API", "NameGame.AP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameGame.Domain", "NameGame.Domain\NameGame.Domain.csproj", "{48AF45FB-0DF7-4821-A1CB-A667583288EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameGame.Persistence", "NameGame.Persistence\NameGame.Persistence.csproj", "{362D8225-C9CE-4CB7-AC43-37BA0D17E728}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{48AF45FB-0DF7-4821-A1CB-A667583288EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48AF45FB-0DF7-4821-A1CB-A667583288EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48AF45FB-0DF7-4821-A1CB-A667583288EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362D8225-C9CE-4CB7-AC43-37BA0D17E728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362D8225-C9CE-4CB7-AC43-37BA0D17E728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362D8225-C9CE-4CB7-AC43-37BA0D17E728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362D8225-C9CE-4CB7-AC43-37BA0D17E728}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
