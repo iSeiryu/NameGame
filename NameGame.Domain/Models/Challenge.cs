@@ -2,15 +2,15 @@
 {
     public class Challenge
     {
-        public Challenge(string description, string name, string[] faces)
+        public Challenge(string description, Employee employee, Face[] faces)
         {
             Description = description;
-            Name = name;
+            Name = employee;
             Faces = faces;
         }
 
         public string Description { get; }
-        public string Name { get; }
-        public string[] Faces { get; }
+        public Employee Name { get; }
+        public Face[] Faces { get; }
     }
 }

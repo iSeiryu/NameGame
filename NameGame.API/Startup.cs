@@ -5,8 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using NameGame.API.Infrastructure;
-using NameGame.Domain.Services;
-using NameGame.Domain.Services.Interfaces;
 using System;
 using System.IO;
 using System.Reflection;

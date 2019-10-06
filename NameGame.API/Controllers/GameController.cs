@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NameGame.Domain.Models;
+using NameGame.Domain.Models.Dto;
 using NameGame.Domain.Services.Interfaces;
 using System;
 using System.Net;
@@ -32,7 +33,7 @@ namespace NameGame.API.Controllers
         {
             try
             {
-                var newChallenge = await _gameService.CreateChallenge(request);
+                var newChallenge = await _gameService.CreateNameToFacesChallenge(request);
                 return Ok(newChallenge);
             }
             catch(Exception ex)
