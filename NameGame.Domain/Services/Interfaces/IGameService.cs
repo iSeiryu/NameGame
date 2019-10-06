@@ -7,6 +7,6 @@ namespace NameGame.Domain.Services.Interfaces
     public interface IGameService
     {
         Task<Challenge> CreateNameToFacesChallenge(ChallengeRequest request);
-        bool IsAnswerValid(ChallengeAnswer answer);
+        Task<bool> IsAnswerValid(ChallengeAnswer answer);
     }
 }

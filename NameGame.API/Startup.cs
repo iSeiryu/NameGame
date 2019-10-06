@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using NameGame.API.Infrastructure;
+using Serilog;
 using System;
 using System.IO;
 using System.Reflection;
@@ -15,6 +16,8 @@ namespace NameGame
     {
         public Startup(IConfiguration configuration)
         {
+            var logConfiguration = new LoggerConfiguration().ReadFrom.Configuration(configuration);
+            Log.Logger = logConfiguration.CreateLogger();
             Configuration = configuration;
         }
 
@@ -23,6 +26,7 @@ namespace NameGame
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Log.Logger.Information("Starting");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.SetupDependencyInjection(Configuration);
 

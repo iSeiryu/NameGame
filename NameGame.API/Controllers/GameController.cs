@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NameGame.Domain.Models;
 using NameGame.Domain.Models.Dto;
 using NameGame.Domain.Services.Interfaces;
@@ -16,10 +17,12 @@ namespace NameGame.API.Controllers
     public class GameController : ControllerBase
     {
         private readonly IGameService _gameService;
+        private readonly ILogger<GameController> _logger;
 
-        public GameController(IGameService gameService)
+        public GameController(IGameService gameService, ILogger<GameController> logger)
         {
             _gameService = gameService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -38,7 +41,9 @@ namespace NameGame.API.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occured while creating new challenge.");
+                const string errorMessage = "An error occured while creating a new challenge.";
+                _logger.LogError(ex, errorMessage);
+                return StatusCode((int)HttpStatusCode.InternalServerError, errorMessage);
             }
         }
 
@@ -51,10 +56,18 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public ActionResult<bool> NameToFacesChallenge([FromBody] ChallengeAnswer answer)
+        public async Task<ActionResult<bool>> NameToFacesChallenge([FromBody] ChallengeAnswer answer)
         {
-            var result = _gameService.IsAnswerValid(answer);
-            return result;
+            try
+            {
+                return await _gameService.IsAnswerValid(answer).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                const string errorMessage = "An error occured while verifying the answer.";
+                _logger.LogError(ex, errorMessage);
+                return StatusCode((int)HttpStatusCode.InternalServerError, errorMessage);
+            }
         }
     }
 }

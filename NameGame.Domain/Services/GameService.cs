@@ -29,9 +29,12 @@ namespace NameGame.Domain.Services
             return CreateNameToFacesChallenge(options, selectedProfile);
         }
 
-        public bool IsAnswerValid(ChallengeAnswer answer)
+        public async Task<bool> IsAnswerValid(ChallengeAnswer answer)
         {
             var dic = _cache.Get<Dictionary<string, string>>(CacheKeys.NameToFacesAnswers);
+            if (dic == null)
+                await GetProfiles().ConfigureAwait(false);
+
             return dic[answer.SelectedImageId] == answer.GivenUserId;
         }
 
