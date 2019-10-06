@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "c2e0dd0f-0806-43f2-b7f2-428ddb62230a",
+		"name": "The Name Game",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get NameToFaces challenge",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}:{{port}}/api/game/NameToFacesChallenge?userName=me&numberOfOptions=6",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"game",
+						"NameToFacesChallenge"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "me"
+						},
+						{
+							"key": "numberOfOptions",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get NameToFaces answer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"GivenUserId\": \"dGkTvWVcmAAC04aCQW0mS\",\n\t\"SelectedImageId\": \"2Qa3suSnmoOewQaYeECSU6\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:{{port}}/api/game/NameToFacesChallenge?",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"game",
+						"NameToFacesChallenge"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "me",
+							"disabled": true
+						},
+						{
+							"key": "numberOfOptions",
+							"value": "6",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
