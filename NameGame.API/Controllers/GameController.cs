@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NameGame.API.Constants;
 using NameGame.Domain.Models;
 using NameGame.Domain.Models.Dto;
 using NameGame.Domain.Services.Interfaces;
@@ -36,14 +37,13 @@ namespace NameGame.API.Controllers
         {
             try
             {
-                var newChallenge = await _gameService.CreateNameToFacesChallenge(request);
+                var newChallenge = await _gameService.CreateNameToFacesChallengeAsync(request);
                 return Ok(newChallenge);
             }
             catch(Exception ex)
             {
-                const string errorMessage = "An error occured while creating a new challenge.";
-                _logger.LogError(ex, errorMessage);
-                return StatusCode((int)HttpStatusCode.InternalServerError, errorMessage);
+                _logger.LogError(ex, ErrorMessages.CreatingNewChallenge);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.CreatingNewChallenge);
             }
         }
 
@@ -60,13 +60,38 @@ namespace NameGame.API.Controllers
         {
             try
             {
-                return await _gameService.IsAnswerValid(answer).ConfigureAwait(false);
+                var (success, errorMessage) = ValidateAnswer(answer);
+                if (!success)
+                {
+                    _logger.LogWarning(errorMessage);
+                    return BadRequest(errorMessage);
+                }
+
+                return await _gameService.IsAnswerValidAsync(answer).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                const string errorMessage = "An error occured while verifying the answer.";
-                _logger.LogError(ex, errorMessage);
-                return StatusCode((int)HttpStatusCode.InternalServerError, errorMessage);
+                _logger.LogError(ex, ErrorMessages.VerifyingAnswer);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.VerifyingAnswer);
+            }
+        }
+
+        private (bool, string) ValidateAnswer(ChallengeAnswer answer)
+        {
+            if(answer == null)
+                return (false, BuildErrorMessage(nameof(answer)));
+
+            if (string.IsNullOrEmpty(answer.GivenUserId))
+                return (false, BuildErrorMessage(nameof(answer.GivenUserId)));
+
+            if (string.IsNullOrEmpty(answer.SelectedImageId))
+                return (false, BuildErrorMessage(nameof(answer.SelectedImageId)));
+
+            return (true, null);
+
+            string BuildErrorMessage(string parameter)
+            {
+                return string.Format(ErrorMessages.ValueIsEmpty, parameter);
             }
         }
     }

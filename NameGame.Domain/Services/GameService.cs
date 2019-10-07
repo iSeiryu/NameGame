@@ -21,7 +21,7 @@ namespace NameGame.Domain.Services
             _cache = cache;
         }
 
-        public async Task<Challenge> CreateNameToFacesChallenge(ChallengeRequest request)
+        public async Task<Challenge> CreateNameToFacesChallengeAsync(ChallengeRequest request)
         {
             var allProfiles = await GetProfiles().ConfigureAwait(false);
             var (options, selectedProfile) = RandomizeSelection(allProfiles, request.NumberOfOptions);
@@ -29,7 +29,7 @@ namespace NameGame.Domain.Services
             return CreateNameToFacesChallenge(options, selectedProfile);
         }
 
-        public async Task<bool> IsAnswerValid(ChallengeAnswer answer)
+        public async Task<bool> IsAnswerValidAsync(ChallengeAnswer answer)
         {
             var dic = _cache.Get<Dictionary<string, string>>(CacheKeys.NameToFacesAnswers);
             if (dic == null)
@@ -42,7 +42,7 @@ namespace NameGame.Domain.Services
         {
             return await _cache.GetOrCreateAsync(CacheKeys.Profiles, async entry =>
             {
-                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(CacheExpiration.MinutesToKeepProfiles));
+                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(CacheExpirations.MinutesToKeepProfiles));
 
                 var profiles = await FetchProfilesWithImages().ConfigureAwait(false);
                 BuildAnswersMap(profiles);
@@ -54,7 +54,7 @@ namespace NameGame.Domain.Services
             {
                 var dic = new Dictionary<string, string>();
                 profiles.ForEach(p => dic[p.Image.Id] = p.Id);
-                _cache.Set(CacheKeys.NameToFacesAnswers, dic, TimeSpan.FromMinutes(CacheExpiration.MinutesToKeepProfiles + 1));
+                _cache.Set(CacheKeys.NameToFacesAnswers, dic, TimeSpan.FromMinutes(CacheExpirations.MinutesToKeepProfiles + 1));
             }
         }
 
