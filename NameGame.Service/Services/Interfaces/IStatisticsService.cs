@@ -6,5 +6,7 @@ namespace NameGame.Service.Services.Interfaces
     {
         int GetLastAttempts(string userName);
         TimeSpan? HowLongDidLastChallengeTake(string userName);
+        TimeSpan? AverageTimeToSolveChallenge();
+        TimeSpan? AverageTimeToSolveChallenge(string userName);
     }
 }

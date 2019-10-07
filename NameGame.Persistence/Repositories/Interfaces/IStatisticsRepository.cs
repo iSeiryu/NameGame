@@ -1,4 +1,5 @@
 ﻿using NameGame.Persistence.Models;
+using System;
 
 namespace NameGame.Persistence.Repositories.Interfaces
 {
@@ -6,5 +7,7 @@ namespace NameGame.Persistence.Repositories.Interfaces
     {
         int GetLastAttempts(string userName);
         Challenge GetLastSuccessfulChallenge(string userName);
+        TimeSpan? AverageTimeToSolveChallenge();
+        TimeSpan? AverageTimeToSolveChallenge(string userName);
     }
 }

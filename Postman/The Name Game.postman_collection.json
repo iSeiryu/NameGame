@@ -212,6 +212,52 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "AverageTimeToSolveChallenge",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}:{{port}}/api/statistics/AverageTimeToSolveChallenge",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"statistics",
+						"AverageTimeToSolveChallenge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AverageTimeUserSolvesChallenge",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}:{{port}}/api/statistics/AverageTimeUserSolvesChallenge?userName=me",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"statistics",
+						"AverageTimeUserSolvesChallenge"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "me"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

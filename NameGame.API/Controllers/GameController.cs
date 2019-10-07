@@ -27,8 +27,9 @@ namespace NameGame.API.Controllers
         }
 
         /// <summary>
-        /// Get a new challenge of identifing the listed name.
+        /// Gets a new challenge of identifing the listed name.
         /// </summary>
+        /// <param name="request"></param>
         /// <returns>Challenge object.</returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -56,10 +57,10 @@ namespace NameGame.API.Controllers
         }
 
         /// <summary>
-        /// Check if the answer is correct.
+        /// Checks if the answer is correct.
         /// </summary>
         /// <param name="answer"></param>
-        /// <returns>True or false.</returns>
+        /// <returns>A validation result with either success or error message.</returns>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -85,8 +86,9 @@ namespace NameGame.API.Controllers
         }
 
         /// <summary>
-        /// Get a new challenge of identifing the listed face.
+        /// Gets a new challenge of identifing the listed face.
         /// </summary>
+        /// <param name="request"></param>
         /// <returns>Challenge object.</returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -114,10 +116,10 @@ namespace NameGame.API.Controllers
         }
 
         /// <summary>
-        /// Check if the answer is correct.
+        /// Checks if the answer is correct.
         /// </summary>
         /// <param name="answer"></param>
-        /// <returns>True or false.</returns>
+        /// <returns>A validation result with either success or error message.</returns>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

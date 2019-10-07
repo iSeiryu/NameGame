@@ -25,5 +25,15 @@ namespace NameGame.Service.Services
 
             return challenge.UpdatedDate - challenge.CreatedDate;
         }
+
+        public TimeSpan? AverageTimeToSolveChallenge()
+        {
+            return _statisticsRepo.AverageTimeToSolveChallenge();
+        }
+
+        public TimeSpan? AverageTimeToSolveChallenge(string userName)
+        {
+            return _statisticsRepo.AverageTimeToSolveChallenge(userName);
+        }
     }
 }
