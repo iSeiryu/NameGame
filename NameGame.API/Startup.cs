@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using NameGame.API.Infrastructure;
+using NameGame.Persistence.DbContexts;
 using Serilog;
 using System;
 using System.IO;
@@ -29,6 +31,7 @@ namespace NameGame
             Log.Logger.Information("Starting");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.SetupDependencyInjection(Configuration);
+            services.AddDbContext<NameGameContext>(options => options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddSwaggerGen(c =>
             {
@@ -62,6 +65,17 @@ namespace NameGame
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            MigrateDb(app);
+        }
+
+        public void MigrateDb(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<NameGameContext>();
+                context.Database.Migrate();
+            }
         }
     }
 }

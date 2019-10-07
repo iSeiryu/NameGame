@@ -37,6 +37,13 @@ namespace NameGame.API.Controllers
         {
             try
             {
+                var (success, errorMessage) = ValidateRequest(request);
+                if (!success)
+                {
+                    _logger.LogWarning(errorMessage);
+                    return BadRequest(errorMessage);
+                }
+
                 var newChallenge = await _gameService.CreateNameToFacesChallengeAsync(request);
                 return Ok(newChallenge);
             }
@@ -76,23 +83,37 @@ namespace NameGame.API.Controllers
             }
         }
 
-        private (bool, string) ValidateAnswer(ChallengeAnswer answer)
+        private (bool, string) ValidateRequest(ChallengeRequest request)
         {
-            if(answer == null)
-                return (false, BuildErrorMessage(nameof(answer)));
+            if(request == null)
+                return (false, BuildErrorMessage(nameof(request)));
 
-            if (string.IsNullOrEmpty(answer.GivenUserId))
-                return (false, BuildErrorMessage(nameof(answer.GivenUserId)));
+            if (string.IsNullOrEmpty(request.UserName))
+                return (false, BuildErrorMessage(nameof(request.UserName)));
 
-            if (string.IsNullOrEmpty(answer.SelectedImageId))
-                return (false, BuildErrorMessage(nameof(answer.SelectedImageId)));
+            if (request.NumberOfOptions < 1)
+                return (false, BuildErrorMessage(nameof(request.NumberOfOptions)));
 
             return (true, null);
+        }
 
-            string BuildErrorMessage(string parameter)
-            {
-                return string.Format(ErrorMessages.ValueIsEmpty, parameter);
-            }
+        private (bool, string) ValidateAnswer(ChallengeAnswer answer)
+        {
+            if (answer == null)
+                return (false, BuildErrorMessage(nameof(answer)));
+
+            if (answer.ChallengeId < 1)
+                return (false, BuildErrorMessage(nameof(answer.ChallengeId)));
+
+            if (string.IsNullOrEmpty(answer.GivenAnswer))
+                return (false, BuildErrorMessage(nameof(answer.GivenAnswer)));
+
+            return (true, null);
+        }
+
+        private string BuildErrorMessage(string parameter)
+        {
+            return string.Format(ErrorMessages.ValueIsEmpty, parameter);
         }
     }
 }

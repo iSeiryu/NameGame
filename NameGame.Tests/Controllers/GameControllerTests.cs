@@ -20,7 +20,7 @@ namespace NameGame.Tests.Controllers
         private readonly Mock<ILogger<GameController>> _logger;
         private readonly string _userId = "12345";
         private readonly string _imageId = "54321";
-
+        private readonly int _challengeId = 1;
         public GameControllerTests()
         {
             _gameService = new Mock<IGameService>();
@@ -30,7 +30,7 @@ namespace NameGame.Tests.Controllers
         [Fact]
         public async void Given_valid_request_it_should_return_200()
         {
-            var request = new ChallengeRequest();
+            var request = CreateChallengeRequest();
             var challenge = CreateChallenge();
             _gameService.Setup(x => x.CreateNameToFacesChallengeAsync(request)).ReturnsAsync(challenge);
 
@@ -45,11 +45,12 @@ namespace NameGame.Tests.Controllers
         [Fact]
         public async void When_creating_new_challenge_fails_log_error_and_return_500()
         {
+            var request = CreateChallengeRequest();
             var expectedException = new Exception("something went wrong");
             _gameService.Setup(x => x.CreateNameToFacesChallengeAsync(It.IsAny<ChallengeRequest>())).ThrowsAsync(expectedException);
 
             var controller = CreateController();
-            var errorResult = await controller.NameToFacesChallenge(new ChallengeRequest()).ConfigureAwait(false);
+            var errorResult = await controller.NameToFacesChallenge(request).ConfigureAwait(false);
 
             Verify500Response(errorResult, ErrorMessages.CreatingNewChallenge, expectedException);
         }
@@ -57,7 +58,7 @@ namespace NameGame.Tests.Controllers
         [Fact]
         public async void When_verifying_asnwer_fails_log_error_and_return_500()
         {
-            var answer = new ChallengeAnswer() { GivenUserId = _userId, SelectedImageId = _imageId };
+            var answer = new ChallengeAnswer() { ChallengeId = _challengeId, GivenAnswer = _imageId };
             var expectedException = new Exception("something went wrong");
             _gameService.Setup(x => x.IsAnswerValidAsync(answer)).ThrowsAsync(expectedException);
 
@@ -81,8 +82,8 @@ namespace NameGame.Tests.Controllers
         [Fact]
         public async void Given_empty_userId_it_should_return_400_and_warn_about_GivenUserId()
         {
-            ChallengeAnswer answer = new ChallengeAnswer() { SelectedImageId = _imageId };
-            var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer.GivenUserId));
+            ChallengeAnswer answer = new ChallengeAnswer() { GivenAnswer = _imageId };
+            var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer.ChallengeId));
             var controller = CreateController();
             var result = await controller.NameToFacesChallenge(answer).ConfigureAwait(false);
 
@@ -92,8 +93,8 @@ namespace NameGame.Tests.Controllers
         [Fact]
         public async void Given_empty_imageId_it_should_return_400_and_warn_about_SelectedImageId()
         {
-            ChallengeAnswer answer = new ChallengeAnswer() { GivenUserId = _userId };
-            var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer.SelectedImageId));
+            ChallengeAnswer answer = new ChallengeAnswer() { ChallengeId = _challengeId };
+            var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer.GivenAnswer));
             var controller = CreateController();
             var result = await controller.NameToFacesChallenge(answer).ConfigureAwait(false);
 
@@ -108,9 +109,19 @@ namespace NameGame.Tests.Controllers
         private Challenge CreateChallenge()
         {
             return new Challenge(
-                "description", 
+                _challengeId,
+                "description",
                 new Employee(_userId, "John", "Doe"),
                 new List<Face>() { new Face(_imageId, "http://someurl.com/mypic.png") }.ToArray());
+        }
+
+        private ChallengeRequest CreateChallengeRequest()
+        {
+            return new ChallengeRequest()
+            {
+                UserName = "Someone",
+                NumberOfOptions = 6
+            };
         }
 
         private void Verify500Response<T>(ActionResult<T> errorResult, string error, Exception expectedException)

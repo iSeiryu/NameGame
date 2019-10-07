@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
+using NameGame.Persistence.Repositories.Interfaces;
 using NameGame.Service.Constants;
 using NameGame.Service.Models;
 using NameGame.Service.Models.Dto;
@@ -14,10 +15,18 @@ namespace NameGame.Service.Services
     {
         private readonly IProfileHttpService _profileHttpService;
         private readonly IMemoryCache _cache;
+        private readonly IUserRepository _userRepository;
+        private readonly IGameRepository _gameRepository;
 
-        public GameService(IProfileHttpService profileHttpService, IMemoryCache cache)
+        public GameService(
+            IProfileHttpService profileHttpService,
+            IUserRepository userRepository,
+            IGameRepository gameRepository,
+            IMemoryCache cache)
         {
             _profileHttpService = profileHttpService;
+            _userRepository = userRepository;
+            _gameRepository = gameRepository;
             _cache = cache;
         }
 
@@ -26,16 +35,19 @@ namespace NameGame.Service.Services
             var allProfiles = await GetProfiles().ConfigureAwait(false);
             var (options, selectedProfile) = RandomizeSelection(allProfiles, request.NumberOfOptions);
 
-            return CreateNameToFacesChallenge(options, selectedProfile);
+            var userId = await _userRepository.GetOrCreateUser(request.UserName).ConfigureAwait(false);
+            return await CreateNameToFacesChallenge(options, selectedProfile, userId).ConfigureAwait(false);
         }
 
         public async Task<bool> IsAnswerValidAsync(ChallengeAnswer answer)
         {
-            var dic = _cache.Get<Dictionary<string, string>>(CacheKeys.NameToFacesAnswers);
-            if (dic == null)
-                await GetProfiles().ConfigureAwait(false);
+            var challenge = await _gameRepository.GetChallenge(answer.ChallengeId).ConfigureAwait(false);
+            var result = challenge.CorrectAnswer == answer.GivenAnswer;
 
-            return dic[answer.SelectedImageId] == answer.GivenUserId;
+            challenge.Attempts++;
+            await _gameRepository.UpdateChallenge(challenge).ConfigureAwait(false);
+
+            return result;
         }
 
         private async Task<List<Profile>> GetProfiles()
@@ -43,19 +55,8 @@ namespace NameGame.Service.Services
             return await _cache.GetOrCreateAsync(CacheKeys.Profiles, async entry =>
             {
                 entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(CacheExpirations.MinutesToKeepProfiles));
-
-                var profiles = await FetchProfilesWithImages().ConfigureAwait(false);
-                BuildAnswersMap(profiles);
-
-                return profiles;
+                return await FetchProfilesWithImages().ConfigureAwait(false);
             }).ConfigureAwait(false);
-
-            void BuildAnswersMap(List<Profile> profiles)
-            {
-                var dic = new Dictionary<string, string>();
-                profiles.ForEach(p => dic[p.Image.Id] = p.Id);
-                _cache.Set(CacheKeys.NameToFacesAnswers, dic, TimeSpan.FromMinutes(CacheExpirations.MinutesToKeepProfiles + 1));
-            }
         }
 
         private async Task<List<Profile>> FetchProfilesWithImages()
@@ -76,13 +77,13 @@ namespace NameGame.Service.Services
             return (subset, selectedProfile);
         }
 
-        private Challenge CreateNameToFacesChallenge(List<Profile> profiles, Profile selectedProfile)
+        private async Task<Challenge> CreateNameToFacesChallenge(List<Profile> profiles, Profile selectedProfile, int userId)
         {
-            const string description = "Identify which face does this name belong to.";
             var employee = new Employee(selectedProfile.Id, selectedProfile.FirstName, selectedProfile.LastName);
             var faces = profiles.Select(x => new Face(x.Image.Id, x.Image.Url)).ToArray();
+            var challengeId = await _gameRepository.CreateChallenge(selectedProfile.Image.Id, userId).ConfigureAwait(false);
 
-            return new Challenge(description, employee, faces);
+            return new Challenge(challengeId, GameConstants.NameToFacesChallengeDescription, employee, faces);
         }
     }
 }

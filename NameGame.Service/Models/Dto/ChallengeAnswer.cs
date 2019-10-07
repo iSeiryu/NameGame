@@ -2,7 +2,7 @@
 {
     public class ChallengeAnswer
     {
-        public string GivenUserId { get; set; }
-        public string SelectedImageId { get; set; }
+        public int ChallengeId { get; set; }
+        public string GivenAnswer { get; set; }
     }
 }
