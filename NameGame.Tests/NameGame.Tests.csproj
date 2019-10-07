@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NameGame.API\NameGame.API.csproj" />
-    <ProjectReference Include="..\NameGame.Domain\NameGame.Domain.csproj" />
+    <ProjectReference Include="..\NameGame.Service\NameGame.Service.csproj" />
   </ItemGroup>
 
 </Project>

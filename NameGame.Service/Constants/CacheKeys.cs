@@ -1,4 +1,4 @@
-﻿namespace NameGame.Domain.Constants
+﻿namespace NameGame.Service.Constants
 {
     public static class CacheKeys
     {

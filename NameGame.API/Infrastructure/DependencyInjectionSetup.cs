@@ -1,5 +1,5 @@
-﻿using NameGame.Domain.Services;
-using NameGame.Domain.Services.Interfaces;
+﻿using NameGame.Service.Services;
+using NameGame.Service.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using System;

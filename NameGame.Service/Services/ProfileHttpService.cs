@@ -1,9 +1,9 @@
-﻿using NameGame.Domain.Services.Interfaces;
+﻿using NameGame.Service.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NameGame.Domain.Services
+namespace NameGame.Service.Services
 {
     public class ProfileHttpService : IProfileHttpService
     {

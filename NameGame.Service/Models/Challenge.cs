@@ -1,4 +1,4 @@
-﻿namespace NameGame.Domain.Models
+﻿namespace NameGame.Service.Models
 {
     public class Challenge
     {

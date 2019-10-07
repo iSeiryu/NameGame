@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameGame.API", "NameGame.API\NameGame.API.csproj", "{E2BBF304-D2F6-4827-8368-CEB247FB0309}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameGame.Domain", "NameGame.Domain\NameGame.Domain.csproj", "{48AF45FB-0DF7-4821-A1CB-A667583288EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameGame.Service", "NameGame.Service\NameGame.Service.csproj", "{48AF45FB-0DF7-4821-A1CB-A667583288EC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameGame.Persistence", "NameGame.Persistence\NameGame.Persistence.csproj", "{362D8225-C9CE-4CB7-AC43-37BA0D17E728}"
 EndProject

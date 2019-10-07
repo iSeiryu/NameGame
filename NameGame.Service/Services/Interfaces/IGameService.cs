@@ -1,8 +1,8 @@
-﻿using NameGame.Domain.Models;
-using NameGame.Domain.Models.Dto;
+﻿using NameGame.Service.Models;
+using NameGame.Service.Models.Dto;
 using System.Threading.Tasks;
 
-namespace NameGame.Domain.Services.Interfaces
+namespace NameGame.Service.Services.Interfaces
 {
     public interface IGameService
     {

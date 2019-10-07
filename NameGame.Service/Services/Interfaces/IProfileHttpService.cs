@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace NameGame.Domain.Services.Interfaces
+namespace NameGame.Service.Services.Interfaces
 {
     public interface IProfileHttpService
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NameGame.API.Constants;
-using NameGame.Domain.Models;
-using NameGame.Domain.Models.Dto;
-using NameGame.Domain.Services.Interfaces;
+using NameGame.Service.Models;
+using NameGame.Service.Models.Dto;
+using NameGame.Service.Services.Interfaces;
 using System;
 using System.Net;
 using System.Threading.Tasks;

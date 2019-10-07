@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
-using NameGame.Domain.Constants;
-using NameGame.Domain.Models;
-using NameGame.Domain.Models.Dto;
-using NameGame.Domain.Services.Interfaces;
+using NameGame.Service.Constants;
+using NameGame.Service.Models;
+using NameGame.Service.Models.Dto;
+using NameGame.Service.Services.Interfaces;
 
-namespace NameGame.Domain.Services
+namespace NameGame.Service.Services
 {
     public class GameService : IGameService
     {

@@ -1,4 +1,4 @@
-﻿namespace NameGame.Domain.Models.Dto
+﻿namespace NameGame.Service.Models.Dto
 {
     public class ChallengeRequest
     {
