@@ -6,7 +6,8 @@ namespace NameGame.Service.Services.Interfaces
 {
     public interface IGameService
     {
-        Task<Challenge> CreateNameToFacesChallengeAsync(ChallengeRequest request);
-        Task<bool> IsAnswerValidAsync(ChallengeAnswer answer);
+        Task<NameToFacesChallenge> CreateNameToFacesChallengeAsync(ChallengeRequest request);
+        Task<FaceToNamesChallenge> CreateFaceToNamesChallengeAsync(ChallengeRequest request);
+        Task<ChallengeAnswerValidationResult> IsAnswerValidAsync(ChallengeAnswer answer);
     }
 }

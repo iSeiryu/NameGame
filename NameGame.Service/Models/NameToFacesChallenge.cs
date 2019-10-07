@@ -1,8 +1,8 @@
 ﻿namespace NameGame.Service.Models
 {
-    public class Challenge
+    public class NameToFacesChallenge
     {
-        public Challenge(int challengeId, string description, Employee employee, Face[] faces)
+        public NameToFacesChallenge(int challengeId, string description, Employee employee, Face[] faces)
         {
             ChallengeId = challengeId;
             Description = description;

@@ -28,10 +28,10 @@ namespace NameGame.Tests.Controllers
         }
 
         [Fact]
-        public async void Given_valid_request_it_should_return_200()
+        public async void Given_valid_NameToFaces_request_it_should_return_200()
         {
             var request = CreateChallengeRequest();
-            var challenge = CreateChallenge();
+            var challenge = CreateNameToFacesChallenge();
             _gameService.Setup(x => x.CreateNameToFacesChallengeAsync(request)).ReturnsAsync(challenge);
 
             var controller = CreateController();
@@ -43,7 +43,22 @@ namespace NameGame.Tests.Controllers
         }
 
         [Fact]
-        public async void When_creating_new_challenge_fails_log_error_and_return_500()
+        public async void Given_valid_FaceToNames_request_it_should_return_200()
+        {
+            var request = CreateChallengeRequest();
+            var challenge = CreateFaceToNamesChallenge();
+            _gameService.Setup(x => x.CreateFaceToNamesChallengeAsync(request)).ReturnsAsync(challenge);
+
+            var controller = CreateController();
+            var actionResult = await controller.FaceToNamesChallenge(request).ConfigureAwait(false);
+
+            actionResult.Result.Should().BeOfType(typeof(OkObjectResult));
+            ((OkObjectResult)actionResult.Result).StatusCode.Should().Be(200);
+            ((OkObjectResult)actionResult.Result).Value.Should().Be(challenge);
+        }
+
+        [Fact]
+        public async void When_creating_new_NameToFaces_challenge_fails_log_error_and_return_500()
         {
             var request = CreateChallengeRequest();
             var expectedException = new Exception("something went wrong");
@@ -56,9 +71,22 @@ namespace NameGame.Tests.Controllers
         }
 
         [Fact]
-        public async void When_verifying_asnwer_fails_log_error_and_return_500()
+        public async void When_creating_new_FaceToNames_challenge_fails_log_error_and_return_500()
         {
-            var answer = new ChallengeAnswer() { ChallengeId = _challengeId, GivenAnswer = _imageId };
+            var request = CreateChallengeRequest();
+            var expectedException = new Exception("something went wrong");
+            _gameService.Setup(x => x.CreateFaceToNamesChallengeAsync(It.IsAny<ChallengeRequest>())).ThrowsAsync(expectedException);
+
+            var controller = CreateController();
+            var errorResult = await controller.FaceToNamesChallenge(request).ConfigureAwait(false);
+
+            Verify500Response(errorResult, ErrorMessages.CreatingNewChallenge, expectedException);
+        }
+
+        [Fact]
+        public async void When_verifying_NameToFaces_asnwer_fails_log_error_and_return_500()
+        {
+            var answer = CreateChallengeAnswer(_challengeId, _imageId);
             var expectedException = new Exception("something went wrong");
             _gameService.Setup(x => x.IsAnswerValidAsync(answer)).ThrowsAsync(expectedException);
 
@@ -69,7 +97,20 @@ namespace NameGame.Tests.Controllers
         }
 
         [Fact]
-        public async void Given_null_answer_it_should_return_400_and_warn_about_answer()
+        public async void When_verifying_FaceToNames_asnwer_fails_log_error_and_return_500()
+        {
+            var answer = CreateChallengeAnswer(_challengeId, _imageId);
+            var expectedException = new Exception("something went wrong");
+            _gameService.Setup(x => x.IsAnswerValidAsync(answer)).ThrowsAsync(expectedException);
+
+            var controller = CreateController();
+            var errorResult = await controller.FaceToNamesChallenge(answer).ConfigureAwait(false);
+
+            Verify500Response(errorResult, ErrorMessages.VerifyingAnswer, expectedException);
+        }
+
+        [Fact]
+        public async void Given_null_answer_for_NameToFaces_it_should_return_400_and_warn_about_answer()
         {
             ChallengeAnswer answer = null;
             var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer));
@@ -80,9 +121,9 @@ namespace NameGame.Tests.Controllers
         }
 
         [Fact]
-        public async void Given_empty_userId_it_should_return_400_and_warn_about_GivenUserId()
+        public async void Given_empty_ChallengeId_for_NameToFaces_it_should_return_400_and_warn_about_ChallengeId()
         {
-            ChallengeAnswer answer = new ChallengeAnswer() { GivenAnswer = _imageId };
+            var answer = CreateChallengeAnswer(0, _imageId);
             var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer.ChallengeId));
             var controller = CreateController();
             var result = await controller.NameToFacesChallenge(answer).ConfigureAwait(false);
@@ -91,12 +132,45 @@ namespace NameGame.Tests.Controllers
         }
 
         [Fact]
-        public async void Given_empty_imageId_it_should_return_400_and_warn_about_SelectedImageId()
+        public async void Given_empty_GivenAnswer_for_NameToFaces_it_should_return_400_and_warn_about_GivenAnswer()
         {
-            ChallengeAnswer answer = new ChallengeAnswer() { ChallengeId = _challengeId };
+            var answer = CreateChallengeAnswer(_challengeId);
             var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer.GivenAnswer));
             var controller = CreateController();
             var result = await controller.NameToFacesChallenge(answer).ConfigureAwait(false);
+
+            Verify400Result(result, logMessage);
+        }
+
+        [Fact]
+        public async void Given_null_answer_for_FaceToNames_it_should_return_400_and_warn_about_answer()
+        {
+            ChallengeAnswer answer = null;
+            var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer));
+            var controller = CreateController();
+            var result = await controller.FaceToNamesChallenge(answer).ConfigureAwait(false);
+
+            Verify400Result(result, logMessage);
+        }
+
+        [Fact]
+        public async void Given_empty_ChallengeId_for_FaceToNames_it_should_return_400_and_warn_about_ChallengeId()
+        {
+            var answer = CreateChallengeAnswer(0, _imageId);
+            var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer.ChallengeId));
+            var controller = CreateController();
+            var result = await controller.FaceToNamesChallenge(answer).ConfigureAwait(false);
+
+            Verify400Result(result, logMessage);
+        }
+
+        [Fact]
+        public async void Given_empty_GivenAnswer_for_FaceToNames_it_should_return_400_and_warn_about_GivenAnswer()
+        {
+            var answer = CreateChallengeAnswer(_challengeId);
+            var logMessage = string.Format(ErrorMessages.ValueIsEmpty, nameof(answer.GivenAnswer));
+            var controller = CreateController();
+            var result = await controller.FaceToNamesChallenge(answer).ConfigureAwait(false);
 
             Verify400Result(result, logMessage);
         }
@@ -106,13 +180,31 @@ namespace NameGame.Tests.Controllers
             return new GameController(_gameService.Object, _logger.Object);
         }
 
-        private Challenge CreateChallenge()
+        private NameToFacesChallenge CreateNameToFacesChallenge()
         {
-            return new Challenge(
+            return new NameToFacesChallenge(
                 _challengeId,
                 "description",
                 new Employee(_userId, "John", "Doe"),
                 new List<Face>() { new Face(_imageId, "http://someurl.com/mypic.png") }.ToArray());
+        }
+
+        private FaceToNamesChallenge CreateFaceToNamesChallenge()
+        {
+            return new FaceToNamesChallenge(
+                _challengeId,
+                "description",
+                new List<Employee>() { new Employee(_userId, "John", "Doe") }.ToArray(),
+                new Face(_imageId, "http://someurl.com/mypic.png"));
+        }
+
+        private ChallengeAnswer CreateChallengeAnswer(int challengeId = 0, string givenAnswer = null)
+        {
+            return new ChallengeAnswer()
+            {
+                ChallengeId = challengeId,
+                GivenAnswer = givenAnswer
+            };
         }
 
         private ChallengeRequest CreateChallengeRequest()

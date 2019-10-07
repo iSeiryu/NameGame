@@ -30,7 +30,7 @@ namespace NameGame.Service.Services
             _cache = cache;
         }
 
-        public async Task<Challenge> CreateNameToFacesChallengeAsync(ChallengeRequest request)
+        public async Task<NameToFacesChallenge> CreateNameToFacesChallengeAsync(ChallengeRequest request)
         {
             var allProfiles = await GetProfiles().ConfigureAwait(false);
             var (options, selectedProfile) = RandomizeSelection(allProfiles, request.NumberOfOptions);
@@ -39,15 +39,28 @@ namespace NameGame.Service.Services
             return await CreateNameToFacesChallenge(options, selectedProfile, userId).ConfigureAwait(false);
         }
 
-        public async Task<bool> IsAnswerValidAsync(ChallengeAnswer answer)
+        public async Task<FaceToNamesChallenge> CreateFaceToNamesChallengeAsync(ChallengeRequest request)
+        {
+            var allProfiles = await GetProfiles().ConfigureAwait(false);
+            var (options, selectedProfile) = RandomizeSelection(allProfiles, request.NumberOfOptions);
+
+            var userId = await _userRepository.GetOrCreateUser(request.UserName).ConfigureAwait(false);
+            return await CreateFaceToNamesChallenge(options, selectedProfile, userId).ConfigureAwait(false);
+        }
+
+        public async Task<ChallengeAnswerValidationResult> IsAnswerValidAsync(ChallengeAnswer answer)
         {
             var challenge = await _gameRepository.GetChallenge(answer.ChallengeId).ConfigureAwait(false);
+            if (challenge == null) return new ChallengeAnswerValidationResult(GameConstants.NoChallengeValidationResult);
+            if (challenge.Solved) return new ChallengeAnswerValidationResult(GameConstants.ChallengeAlreadySolvedValidationResult);
+
             var result = challenge.CorrectAnswer == answer.GivenAnswer;
 
             challenge.Attempts++;
+            challenge.Solved = result;
             await _gameRepository.UpdateChallenge(challenge).ConfigureAwait(false);
 
-            return result;
+            return result ? new ChallengeAnswerValidationResult() : new ChallengeAnswerValidationResult(GameConstants.WrongAnswer);
         }
 
         private async Task<List<Profile>> GetProfiles()
@@ -77,13 +90,22 @@ namespace NameGame.Service.Services
             return (subset, selectedProfile);
         }
 
-        private async Task<Challenge> CreateNameToFacesChallenge(List<Profile> profiles, Profile selectedProfile, int userId)
+        private async Task<NameToFacesChallenge> CreateNameToFacesChallenge(List<Profile> profiles, Profile selectedProfile, int userId)
         {
             var employee = new Employee(selectedProfile.Id, selectedProfile.FirstName, selectedProfile.LastName);
             var faces = profiles.Select(x => new Face(x.Image.Id, x.Image.Url)).ToArray();
             var challengeId = await _gameRepository.CreateChallenge(selectedProfile.Image.Id, userId).ConfigureAwait(false);
 
-            return new Challenge(challengeId, GameConstants.NameToFacesChallengeDescription, employee, faces);
+            return new NameToFacesChallenge(challengeId, GameConstants.NameToFacesChallengeDescription, employee, faces);
+        }
+
+        private async Task<FaceToNamesChallenge> CreateFaceToNamesChallenge(List<Profile> profiles, Profile selectedProfile, int userId)
+        {
+            var employees = profiles.Select(x => new Employee(x.Id, x.FirstName, x.LastName)).ToArray();
+            var face = new Face(selectedProfile.Image.Id, selectedProfile.Image.Url);
+            var challengeId = await _gameRepository.CreateChallenge(selectedProfile.Id, userId).ConfigureAwait(false);
+
+            return new FaceToNamesChallenge(challengeId, GameConstants.FaceToNamesChallengeDescription, employees, face);
         }
     }
 }

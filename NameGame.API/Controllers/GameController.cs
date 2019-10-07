@@ -32,8 +32,9 @@ namespace NameGame.API.Controllers
         /// <returns>Challenge object.</returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Challenge>> NameToFacesChallenge([FromQuery] ChallengeRequest request)
+        public async Task<ActionResult<NameToFacesChallenge>> NameToFacesChallenge([FromQuery] ChallengeRequest request)
         {
             try
             {
@@ -63,7 +64,65 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<bool>> NameToFacesChallenge([FromBody] ChallengeAnswer answer)
+        public async Task<ActionResult<ChallengeAnswerValidationResult>> NameToFacesChallenge([FromBody] ChallengeAnswer answer)
+        {
+            try
+            {
+                var (success, errorMessage) = ValidateAnswer(answer);
+                if (!success)
+                {
+                    _logger.LogWarning(errorMessage);
+                    return BadRequest(errorMessage);
+                }
+
+                return await _gameService.IsAnswerValidAsync(answer).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ErrorMessages.VerifyingAnswer);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.VerifyingAnswer);
+            }
+        }
+
+        /// <summary>
+        /// Get a new challenge of identifing the listed face.
+        /// </summary>
+        /// <returns>Challenge object.</returns>
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<NameToFacesChallenge>> FaceToNamesChallenge([FromQuery] ChallengeRequest request)
+        {
+            try
+            {
+                var (success, errorMessage) = ValidateRequest(request);
+                if (!success)
+                {
+                    _logger.LogWarning(errorMessage);
+                    return BadRequest(errorMessage);
+                }
+
+                var newChallenge = await _gameService.CreateFaceToNamesChallengeAsync(request);
+                return Ok(newChallenge);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ErrorMessages.CreatingNewChallenge);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.CreatingNewChallenge);
+            }
+        }
+
+        /// <summary>
+        /// Check if the answer is correct.
+        /// </summary>
+        /// <param name="answer"></param>
+        /// <returns>True or false.</returns>
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<ChallengeAnswerValidationResult>> FaceToNamesChallenge([FromBody] ChallengeAnswer answer)
         {
             try
             {

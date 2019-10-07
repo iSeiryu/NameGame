@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Get NameToFaces challenge",
+			"name": "NameToFaces challenge",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -36,7 +36,7 @@
 			"response": []
 		},
 		{
-			"name": "Get NameToFaces answer",
+			"name": "NameToFaces answer",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -49,7 +49,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"GivenUserId\": \"dGkTvWVcmAAC04aCQW0mS\",\n\t\"SelectedImageId\": \"2Qa3suSnmoOewQaYeECSU6\"\n}",
+					"raw": "{\n\t\"ChallengeId\": 5,\n\t\"GivenAnswer\": \"1yUCBofluco4muYYsIOwms\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -77,6 +77,136 @@
 							"key": "numberOfOptions",
 							"value": "6",
 							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FaceToNames challenge",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}:{{port}}/api/game/FaceToNamesChallenge?userName=me&numberOfOptions=6",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"game",
+						"FaceToNamesChallenge"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "me"
+						},
+						{
+							"key": "numberOfOptions",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FaceToNames answer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"ChallengeId\": 16,\n\t\"GivenAnswer\": \"5WVQlJ4ebeS2OuMMw0Qu0O\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:{{port}}/api/game/NameToFacesChallenge?",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"game",
+						"NameToFacesChallenge"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "me",
+							"disabled": true
+						},
+						{
+							"key": "numberOfOptions",
+							"value": "6",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetLastAttempts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}:{{port}}/api/statistics/GetLastAttempts?userName=me",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"statistics",
+						"GetLastAttempts"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "me"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HowLongDidLastChallengeTake",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}:{{port}}/api/statistics/HowLongDidLastChallengeTake?userName=me",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"statistics",
+						"HowLongDidLastChallengeTake"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "me"
 						}
 					]
 				}

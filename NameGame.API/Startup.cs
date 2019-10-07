@@ -73,8 +73,10 @@ namespace NameGame
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetService<NameGameContext>();
-                context.Database.Migrate();
+                using (var context = serviceScope.ServiceProvider.GetService<NameGameContext>())
+                {
+                    context.Database.Migrate();
+                }
             }
         }
     }

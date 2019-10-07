@@ -15,8 +15,10 @@ namespace NameGame.API.Infrastructure
         public static IServiceCollection SetupDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IGameService, GameService>();
+            services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IGameRepository, GameRepository>();
+            services.AddTransient<IStatisticsRepository, StatisticsRepository>();
             services.AddSingleton<IProfileHttpService>(new ProfileHttpService(CreateHttpClient("WillowTreeUrl", configuration)));
 
             return services;

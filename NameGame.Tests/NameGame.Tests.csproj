@@ -24,4 +24,9 @@
     <ProjectReference Include="..\NameGame.Service\NameGame.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

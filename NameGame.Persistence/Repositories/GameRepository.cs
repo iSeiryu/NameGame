@@ -2,6 +2,7 @@
 using NameGame.Persistence.DbContexts;
 using NameGame.Persistence.Models;
 using NameGame.Persistence.Repositories.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace NameGame.Persistence.Repositories
@@ -31,6 +32,7 @@ namespace NameGame.Persistence.Repositories
 
         public async Task UpdateChallenge(Challenge challenge)
         {
+            challenge.UpdatedDate = DateTime.Now;
             _context.Challenges.Attach(challenge);
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }

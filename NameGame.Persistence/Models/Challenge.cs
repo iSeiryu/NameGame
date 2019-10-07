@@ -15,11 +15,13 @@ namespace NameGame.Persistence.Models
 
         public int Id { get; set; }
 
-        public string CorrectAnswer { get; set; }
-
         public int Attempts { get; set; }
 
         public int UserId { get; set; }
+
+        public bool Solved { get; set; }
+
+        public string CorrectAnswer { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
