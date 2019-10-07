@@ -82,7 +82,7 @@ namespace NameGame.API.Controllers
         }
 
         /// <summary>
-        /// Gets the time length of how long does it take on average to identify the subject.
+        /// Gets the time length of how long it takes on average to identify the subject.
         /// </summary>
         /// <returns>Average time duration for all past challenges between the creation of the challenge and marking it solved. It returns null when no solved challenges were found.</returns>
         [HttpGet]
@@ -102,7 +102,7 @@ namespace NameGame.API.Controllers
         }
 
         /// <summary>
-        /// Gets the time length of how long does it take on average for a person to identify the subject.
+        /// Gets the time length of how long it takes on average for a person to identify the subject.
         /// </summary>
         /// <param name="userName">Username of the user that solved some challenges in the past.</param>
         /// <returns>Average time duration for all past challenges of a specific user between the creation of the challenge and marking it solved. It returns null when no solved challenges were found.</returns>
