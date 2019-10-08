@@ -10,7 +10,7 @@ namespace NameGame.API.Controllers
     /// <summary>
     /// A set of endpoints to get the Name Game statistics
     /// </summary>
-    [Route("api/[controller]/[action]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class StatisticsController : ControllerBase
     {

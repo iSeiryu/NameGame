@@ -6,258 +6,460 @@
 	},
 	"item": [
 		{
-			"name": "NameToFaces challenge",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}:{{port}}/api/game/NameToFacesChallenge?userName=me&numberOfOptions=6",
-					"host": [
-						"{{url}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"api",
-						"game",
-						"NameToFacesChallenge"
-					],
-					"query": [
-						{
-							"key": "userName",
-							"value": "me"
-						},
-						{
-							"key": "numberOfOptions",
-							"value": "6"
+			"name": "Statistics",
+			"item": [
+				{
+					"name": "GetLastAttempts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/statistics/get-last-attempts?userName=me",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"statistics",
+								"get-last-attempts"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "me"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "NameToFaces answer",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"ChallengeId\": 5,\n\t\"GivenAnswer\": \"1yUCBofluco4muYYsIOwms\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{url}}:{{port}}/api/game/NameToFacesChallenge?",
-					"host": [
-						"{{url}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"api",
-						"game",
-						"NameToFacesChallenge"
-					],
-					"query": [
-						{
-							"key": "userName",
-							"value": "me",
-							"disabled": true
-						},
-						{
-							"key": "numberOfOptions",
-							"value": "6",
-							"disabled": true
+				{
+					"name": "HowLongDidLastChallengeTake",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/statistics/how-long-did-last-challenge-take?userName=me",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"statistics",
+								"how-long-did-last-challenge-take"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "me"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "FaceToNames challenge",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}:{{port}}/api/game/FaceToNamesChallenge?userName=me&numberOfOptions=6",
-					"host": [
-						"{{url}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"api",
-						"game",
-						"FaceToNamesChallenge"
-					],
-					"query": [
-						{
-							"key": "userName",
-							"value": "me"
-						},
-						{
-							"key": "numberOfOptions",
-							"value": "6"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "FaceToNames answer",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"ChallengeId\": 16,\n\t\"GivenAnswer\": \"5WVQlJ4ebeS2OuMMw0Qu0O\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{url}}:{{port}}/api/game/NameToFacesChallenge?",
-					"host": [
-						"{{url}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"api",
-						"game",
-						"NameToFacesChallenge"
-					],
-					"query": [
-						{
-							"key": "userName",
-							"value": "me",
-							"disabled": true
+				{
+					"name": "AverageTimeToSolveChallenge",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/statistics/average-time-to-solve-challenge",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"statistics",
+								"average-time-to-solve-challenge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AverageTimeUserSolvesChallenge",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/statistics/average-time-user-solves-challenge?userName=me",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"statistics",
+								"average-time-user-solves-challenge"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "me"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Game",
+			"item": [
+				{
+					"name": "NameToFaces challenge",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/game/name-to-faces-challenge?userName=me&numberOfOptions=6",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"game",
+								"name-to-faces-challenge"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "me"
+								},
+								{
+									"key": "numberOfOptions",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NameToFaces answer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"ChallengeId\": 1,\n\t\"GivenAnswer\": \"1yUCBofluco4muYYsIOwms\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
-						{
-							"key": "numberOfOptions",
-							"value": "6",
-							"disabled": true
+						"url": {
+							"raw": "{{url}}:{{port}}/game/name-to-faces-challenge?",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"game",
+								"name-to-faces-challenge"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "me",
+									"disabled": true
+								},
+								{
+									"key": "numberOfOptions",
+									"value": "6",
+									"disabled": true
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "FaceToNames challenge",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/game/face-to-names-challenge?userName=me&numberOfOptions=6",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"game",
+								"face-to-names-challenge"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "me"
+								},
+								{
+									"key": "numberOfOptions",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FaceToNames answer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"ChallengeId\": 1,\n\t\"GivenAnswer\": \"5WVQlJ4ebeS2OuMMw0Qu0O\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/game/face-to-names-challenge?",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"game",
+								"face-to-names-challenge"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "me",
+									"disabled": true
+								},
+								{
+									"key": "numberOfOptions",
+									"value": "6",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "GetLastAttempts",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}:{{port}}/api/statistics/GetLastAttempts?userName=me",
-					"host": [
-						"{{url}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"api",
-						"statistics",
-						"GetLastAttempts"
-					],
-					"query": [
-						{
-							"key": "userName",
-							"value": "me"
+			"name": "GameResource",
+			"item": [
+				{
+					"name": "name-to-faces-challenge",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\": \"someone\",\n\t\"numberOfOptions\": 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/name-to-faces-challenge",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"name-to-faces-challenge"
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "HowLongDidLastChallengeTake",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}:{{port}}/api/statistics/HowLongDidLastChallengeTake?userName=me",
-					"host": [
-						"{{url}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"api",
-						"statistics",
-						"HowLongDidLastChallengeTake"
-					],
-					"query": [
-						{
-							"key": "userName",
-							"value": "me"
+					},
+					"response": []
+				},
+				{
+					"name": "name-to-faces-challenge",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"ChallengeId\": 1,\n\t\"GivenAnswer\": \"5cEKDmCEreguEQoI0UyyIU\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/name-to-faces-challenge",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"name-to-faces-challenge"
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AverageTimeToSolveChallenge",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}:{{port}}/api/statistics/AverageTimeToSolveChallenge",
-					"host": [
-						"{{url}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"api",
-						"statistics",
-						"AverageTimeToSolveChallenge"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AverageTimeUserSolvesChallenge",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}:{{port}}/api/statistics/AverageTimeUserSolvesChallenge?userName=me",
-					"host": [
-						"{{url}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"api",
-						"statistics",
-						"AverageTimeUserSolvesChallenge"
-					],
-					"query": [
-						{
-							"key": "userName",
-							"value": "me"
+					},
+					"response": []
+				},
+				{
+					"name": "face-to-names-challenge",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\": \"me\",\n\t\"numberOfOptions\": 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/face-to-names-challenge",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"face-to-names-challenge"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "face-to-names-challenge",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"ChallengeId\": 6,\n\t\"GivenAnswer\": \"1yUCBofluco4muYYsIOwms\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/face-to-names-challenge",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"face-to-names-challenge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all challenges",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/challenge",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"challenge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "challenge",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/challenge/2",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"challenge",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete challenge",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/challenge/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"challenge",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using NameGame.Persistence.DbContexts;
 using Serilog;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace NameGame
@@ -29,13 +31,16 @@ namespace NameGame
         public void ConfigureServices(IServiceCollection services)
         {
             Log.Logger.Information("Starting");
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddMvc(options => options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer())))
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.SetupDependencyInjection(Configuration);
-            services.AddDbContext<NameGameContext>(options => options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<NameGameContext>(options => options.UseInMemoryDatabase(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "The Name Game API", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -65,19 +70,6 @@ namespace NameGame
 
             app.UseHttpsRedirection();
             app.UseMvc();
-
-            MigrateDb(app);
-        }
-
-        public void MigrateDb(IApplicationBuilder app)
-        {
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                using (var context = serviceScope.ServiceProvider.GetService<NameGameContext>())
-                {
-                    context.Database.Migrate();
-                }
-            }
         }
     }
 }

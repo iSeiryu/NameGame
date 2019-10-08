@@ -3,6 +3,8 @@ using NameGame.Persistence.DbContexts;
 using NameGame.Persistence.Models;
 using NameGame.Persistence.Repositories.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NameGame.Persistence.Repositories
@@ -27,7 +29,16 @@ namespace NameGame.Persistence.Repositories
 
         public async Task<Challenge> GetChallenge(int challengeId)
         {
-            return await _context.Challenges.FirstOrDefaultAsync(x => x.Id == challengeId).ConfigureAwait(false);
+            return await _context.Challenges
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.Id == challengeId).ConfigureAwait(false);
+        }
+
+        public async Task<List<Challenge>> GetChallenges()
+        {
+            return await _context.Challenges
+                .Include(x => x.User)
+                .ToListAsync().ConfigureAwait(false);
         }
 
         public async Task UpdateChallenge(Challenge challenge)
@@ -35,6 +46,14 @@ namespace NameGame.Persistence.Repositories
             challenge.UpdatedDate = DateTime.Now;
             _context.Challenges.Attach(challenge);
             await _context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteChallenge(Challenge challenge)
+        {
+            _context.Challenges.Remove(challenge);
+            var numberOfRecords = await _context.SaveChangesAsync().ConfigureAwait(false);
+
+            return numberOfRecords > 0;
         }
     }
 }

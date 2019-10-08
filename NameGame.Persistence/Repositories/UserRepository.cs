@@ -2,6 +2,7 @@
 using NameGame.Persistence.DbContexts;
 using NameGame.Persistence.Models;
 using NameGame.Persistence.Repositories.Interfaces;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace NameGame.Persistence.Repositories
 
             if (userId < 1)
             {
-                var user = new User() { Name = userName };
+                var user = new User() { Name = userName, CreatedDate = DateTime.Now };
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
 

@@ -5,6 +5,10 @@ namespace NameGame.Persistence.Models
 {
     public class Challenge
     {
+        public Challenge()
+        {
+        }
+
         public Challenge(int userId, string correctAnswer)
         {
             UserId = userId;
