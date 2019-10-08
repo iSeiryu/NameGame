@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Internal;
 using Moq;
 using NameGame.API.Constants;
 using NameGame.API.Controllers;
@@ -225,7 +224,7 @@ namespace NameGame.Tests.Controllers
             _logger.Verify(m => m.Log(
                 LogLevel.Error,
                 It.IsAny<EventId>(),
-                It.IsAny<FormattedLogValues>(),
+                It.IsAny<object>(),
                 expectedException,
                 It.IsAny<Func<object, Exception, string>>()));
         }
@@ -243,7 +242,7 @@ namespace NameGame.Tests.Controllers
             _logger.Verify(m => m.Log(
                 LogLevel.Warning,
                 It.IsAny<EventId>(),
-                It.Is<FormattedLogValues>(x => x.ToString().Equals(logValue)),
+                It.Is<object>(x => x.ToString().Equals(logValue)),
                 null,
                 It.IsAny<Func<object, Exception, string>>()));
         }
