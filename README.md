@@ -45,11 +45,13 @@ A Postman collection is provided to make the testing of the API easier: https://
 
 **Swagger**
 
-Swagger is also available to check how the API is designed.
+Swagger is also available to check how the API is designed.  
+
+![image](https://user-images.githubusercontent.com/129137/95906647-60662980-0d68-11eb-81d5-98ad1c212df7.png)
 
 **Hosted version**
 
-The API is hosted here: https://namegame.azurewebsites.net
+The API is hosted here: https://namegame.azurewebsites.net (not anymore, free trial has expired)
 
 The Postman collection contains a set of environment variables to switch between localhost and azure endpoints.
 
