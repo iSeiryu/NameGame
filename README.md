@@ -1,3 +1,6 @@
+This was a test project from WillowTree. I was given 8 hours to read the requirements, decide which features I want to implement, and design and implement everything. The main prolem was one of the requirements to host it somewhere so the reviewer could test my app. To meet the time limit requirement I had to cut some corners. Leaving it as is for history.  
+I was invited to the onsite interview after this and got an offer. It was a fun experience.
+
 # The Name Game
 Leading scientists have proven, via science, that learning your coworker’s names while starting a new job is useful. This is an API that makes it possible to implement a full-featured game on top of it. The rules are simple: the game will present the client/user with six faces and ask them to identify the listed name.
 
