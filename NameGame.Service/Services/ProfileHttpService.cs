@@ -3,19 +3,15 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NameGame.Service.Services
-{
-    public class ProfileHttpService : IProfileHttpService
-    {
+namespace NameGame.Service.Services {
+    public class ProfileHttpService : IProfileHttpService {
         private readonly HttpClient _httpClient;
 
-        public ProfileHttpService(HttpClient httpClient)
-        {
+        public ProfileHttpService(HttpClient httpClient) {
             _httpClient = httpClient;
         }
 
-        public async Task<T> Get<T>(string uri)
-        {
+        public async Task<T> Get<T>(string uri) {
             var response = await _httpClient.GetAsync(uri).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)

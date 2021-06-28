@@ -1,9 +1,6 @@
-﻿namespace NameGame.Service.Models
-{
-    public class Employee
-    {
-        public Employee(string id, string firstName, string lastName)
-        {
+﻿namespace NameGame.Service.Models {
+    public class Employee {
+        public Employee(string id, string firstName, string lastName) {
             Id = id;
             Name = firstName + " " + lastName;
         }

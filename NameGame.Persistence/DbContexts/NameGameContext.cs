@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NameGame.Persistence.Models;
 
-namespace NameGame.Persistence.DbContexts
-{
-    public class NameGameContext : DbContext
-    {
+namespace NameGame.Persistence.DbContexts {
+    public class NameGameContext : DbContext {
         public NameGameContext(DbContextOptions<NameGameContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }

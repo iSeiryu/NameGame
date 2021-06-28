@@ -1,14 +1,10 @@
-﻿namespace NameGame.Service.Models.Dto
-{
-    public class ChallengeAnswerValidationResult
-    {
-        public ChallengeAnswerValidationResult()
-        {
+﻿namespace NameGame.Service.Models.Dto {
+    public class ChallengeAnswerValidationResult {
+        public ChallengeAnswerValidationResult() {
             Success = true;
         }
 
-        public ChallengeAnswerValidationResult(string errorMessage)
-        {
+        public ChallengeAnswerValidationResult(string errorMessage) {
             ErrorMessage = errorMessage;
         }
 

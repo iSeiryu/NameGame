@@ -8,20 +8,17 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace NameGame.API.Controllers
-{
+namespace NameGame.API.Controllers {
     /// <summary>
     /// A set of endpoints to allow to build the Name Game
     /// </summary>
     [Route("[action]")]
     [ApiController]
-    public class ChallengeController : ControllerBase
-    {
+    public class ChallengeController : ControllerBase {
         private readonly IGameResourceService _gameService;
         private readonly ILogger<ChallengeController> _logger;
 
-        public ChallengeController(IGameResourceService gameService, ILogger<ChallengeController> logger)
-        {
+        public ChallengeController(IGameResourceService gameService, ILogger<ChallengeController> logger) {
             _gameService = gameService;
             _logger = logger;
         }
@@ -33,14 +30,11 @@ namespace NameGame.API.Controllers
         [HttpGet("/[controller]")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult> GetAll()
-        {
-            try
-            {
+        public async Task<ActionResult> GetAll() {
+            try {
                 return Ok(await _gameService.GetChallenges().ConfigureAwait(false));
             }
-            catch(Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.CreatingNewChallenge);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.GeneralGameError);
             }
@@ -56,10 +50,8 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult> Get(int challengeId)
-        {
-            try
-            {
+        public async Task<ActionResult> Get(int challengeId) {
+            try {
                 if (challengeId < 1) return BadRequest(BuildErrorMessage(nameof(challengeId)));
 
                 var challenge = await _gameService.GetChallenge(challengeId).ConfigureAwait(false);
@@ -67,8 +59,7 @@ namespace NameGame.API.Controllers
 
                 return Ok(challenge);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.CreatingNewChallenge);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.GeneralGameError);
             }
@@ -83,13 +74,10 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<NameToFacesChallenge>> NameToFacesChallenge([FromBody] ChallengeRequest request)
-        {
-            try
-            {
+        public async Task<ActionResult<NameToFacesChallenge>> NameToFacesChallenge([FromBody] ChallengeRequest request) {
+            try {
                 var (success, errorMessage) = ValidateRequest(request);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
@@ -97,8 +85,7 @@ namespace NameGame.API.Controllers
                 var newChallenge = await _gameService.CreateNameToFacesChallenge(request).ConfigureAwait(false);
                 return Ok(newChallenge);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.CreatingNewChallenge);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex);
             }
@@ -113,21 +100,17 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<ChallengeAnswerValidationResult>> NameToFacesChallenge([FromBody] ChallengeAnswer answer)
-        {
-            try
-            {
+        public async Task<ActionResult<ChallengeAnswerValidationResult>> NameToFacesChallenge([FromBody] ChallengeAnswer answer) {
+            try {
                 var (success, errorMessage) = ValidateAnswer(answer);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
 
                 return await _gameService.IsAnswerValid(answer).ConfigureAwait(false);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.VerifyingAnswer);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.VerifyingAnswer);
             }
@@ -142,13 +125,10 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<NameToFacesChallenge>> FaceToNamesChallenge([FromBody] ChallengeRequest request)
-        {
-            try
-            {
+        public async Task<ActionResult<NameToFacesChallenge>> FaceToNamesChallenge([FromBody] ChallengeRequest request) {
+            try {
                 var (success, errorMessage) = ValidateRequest(request);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
@@ -156,8 +136,7 @@ namespace NameGame.API.Controllers
                 var newChallenge = await _gameService.CreateFaceToNamesChallenge(request);
                 return Ok(newChallenge);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.CreatingNewChallenge);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.CreatingNewChallenge);
             }
@@ -172,21 +151,17 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<ChallengeAnswerValidationResult>> FaceToNamesChallenge([FromBody] ChallengeAnswer answer)
-        {
-            try
-            {
+        public async Task<ActionResult<ChallengeAnswerValidationResult>> FaceToNamesChallenge([FromBody] ChallengeAnswer answer) {
+            try {
                 var (success, errorMessage) = ValidateAnswer(answer);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
 
                 return await _gameService.IsAnswerValid(answer).ConfigureAwait(false);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.VerifyingAnswer);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.VerifyingAnswer);
             }
@@ -200,25 +175,21 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult> Delete(int challengeId)
-        {
-            try
-            {
+        public async Task<ActionResult> Delete(int challengeId) {
+            try {
                 var challenge = await _gameService.GetChallenge(challengeId).ConfigureAwait(false);
                 if (challenge == null) return NotFound();
 
                 return Ok(await _gameService.DeleteChallenge(challenge).ConfigureAwait(false));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.CreatingNewChallenge);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.GeneralGameError);
             }
         }
 
-        private (bool, string) ValidateRequest(ChallengeRequest request)
-        {
-            if(request == null)
+        private (bool, string) ValidateRequest(ChallengeRequest request) {
+            if (request == null)
                 return (false, BuildErrorMessage(nameof(request)));
 
             if (string.IsNullOrEmpty(request.UserName))
@@ -230,8 +201,7 @@ namespace NameGame.API.Controllers
             return (true, null);
         }
 
-        private (bool, string) ValidateAnswer(ChallengeAnswer answer)
-        {
+        private (bool, string) ValidateAnswer(ChallengeAnswer answer) {
             if (answer == null)
                 return (false, BuildErrorMessage(nameof(answer)));
 
@@ -244,8 +214,7 @@ namespace NameGame.API.Controllers
             return (true, null);
         }
 
-        private string BuildErrorMessage(string parameter)
-        {
+        private string BuildErrorMessage(string parameter) {
             return string.Format(ErrorMessages.ValueIsEmpty, parameter);
         }
     }

@@ -8,20 +8,17 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace NameGame.API.Controllers
-{
+namespace NameGame.API.Controllers {
     /// <summary>
     /// A set of endpoints to allow to build the Name Game
     /// </summary>
     [Route("[controller]/[action]")]
     [ApiController]
-    public class GameController : ControllerBase
-    {
+    public class GameController : ControllerBase {
         private readonly IGameService _gameService;
         private readonly ILogger<GameController> _logger;
 
-        public GameController(IGameService gameService, ILogger<GameController> logger)
-        {
+        public GameController(IGameService gameService, ILogger<GameController> logger) {
             _gameService = gameService;
             _logger = logger;
         }
@@ -35,13 +32,10 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<NameToFacesChallenge>> NameToFacesChallenge([FromQuery] ChallengeRequest request)
-        {
-            try
-            {
+        public async Task<ActionResult<NameToFacesChallenge>> NameToFacesChallenge([FromQuery] ChallengeRequest request) {
+            try {
                 var (success, errorMessage) = ValidateRequest(request);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
@@ -49,8 +43,7 @@ namespace NameGame.API.Controllers
                 var newChallenge = await _gameService.CreateNameToFacesChallengeAsync(request);
                 return Ok(newChallenge);
             }
-            catch(Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.CreatingNewChallenge);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.CreatingNewChallenge);
             }
@@ -65,21 +58,17 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<ChallengeAnswerValidationResult>> NameToFacesChallenge([FromBody] ChallengeAnswer answer)
-        {
-            try
-            {
+        public async Task<ActionResult<ChallengeAnswerValidationResult>> NameToFacesChallenge([FromBody] ChallengeAnswer answer) {
+            try {
                 var (success, errorMessage) = ValidateAnswer(answer);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
 
                 return await _gameService.IsAnswerValidAsync(answer).ConfigureAwait(false);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.VerifyingAnswer);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.VerifyingAnswer);
             }
@@ -94,13 +83,10 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<NameToFacesChallenge>> FaceToNamesChallenge([FromQuery] ChallengeRequest request)
-        {
-            try
-            {
+        public async Task<ActionResult<NameToFacesChallenge>> FaceToNamesChallenge([FromQuery] ChallengeRequest request) {
+            try {
                 var (success, errorMessage) = ValidateRequest(request);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
@@ -108,8 +94,7 @@ namespace NameGame.API.Controllers
                 var newChallenge = await _gameService.CreateFaceToNamesChallengeAsync(request);
                 return Ok(newChallenge);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.CreatingNewChallenge);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.CreatingNewChallenge);
             }
@@ -124,29 +109,24 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<ChallengeAnswerValidationResult>> FaceToNamesChallenge([FromBody] ChallengeAnswer answer)
-        {
-            try
-            {
+        public async Task<ActionResult<ChallengeAnswerValidationResult>> FaceToNamesChallenge([FromBody] ChallengeAnswer answer) {
+            try {
                 var (success, errorMessage) = ValidateAnswer(answer);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
 
                 return await _gameService.IsAnswerValidAsync(answer).ConfigureAwait(false);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.VerifyingAnswer);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.VerifyingAnswer);
             }
         }
 
-        private (bool, string) ValidateRequest(ChallengeRequest request)
-        {
-            if(request == null)
+        private (bool, string) ValidateRequest(ChallengeRequest request) {
+            if (request == null)
                 return (false, BuildErrorMessage(nameof(request)));
 
             if (string.IsNullOrEmpty(request.UserName))
@@ -158,8 +138,7 @@ namespace NameGame.API.Controllers
             return (true, null);
         }
 
-        private (bool, string) ValidateAnswer(ChallengeAnswer answer)
-        {
+        private (bool, string) ValidateAnswer(ChallengeAnswer answer) {
             if (answer == null)
                 return (false, BuildErrorMessage(nameof(answer)));
 
@@ -172,8 +151,7 @@ namespace NameGame.API.Controllers
             return (true, null);
         }
 
-        private string BuildErrorMessage(string parameter)
-        {
+        private string BuildErrorMessage(string parameter) {
             return string.Format(ErrorMessages.ValueIsEmpty, parameter);
         }
     }

@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
 
-namespace NameGame.Service.Models.Dto
-{
-    public class Profile
-    {
+namespace NameGame.Service.Models.Dto {
+    public class Profile {
         [JsonProperty("id")]
         public string Id { get; set; }
         [JsonProperty("firstName")]
@@ -14,8 +12,7 @@ namespace NameGame.Service.Models.Dto
         public Image Image { get; set; }
     }
 
-    public class Image
-    {
+    public class Image {
         [JsonProperty("id")]
         public string Id { get; set; }
         [JsonProperty("url")]

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,12 +14,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace NameGame
-{
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
+namespace NameGame {
+    public class Startup {
+        public Startup(IConfiguration configuration) {
             var logConfiguration = new LoggerConfiguration().ReadFrom.Configuration(configuration);
             Log.Logger = logConfiguration.CreateLogger();
             Configuration = configuration;
@@ -29,16 +25,14 @@ namespace NameGame
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) {
             Log.Logger.Information("Starting");
 
             services.AddMvc(options => options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer())));
             services.SetupDependencyInjection(Configuration);
             services.AddDbContext<NameGameContext>(options => options.UseInMemoryDatabase(Configuration["ConnectionStrings:DefaultConnection"]));
 
-            services.AddSwaggerGen(c =>
-            {
+            services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "The Name Game API", Version = "v1" });
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
@@ -49,21 +43,17 @@ namespace NameGame
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
+            app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "The Name Game API V1");
                 c.RoutePrefix = "";
             });
 
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
+            else {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

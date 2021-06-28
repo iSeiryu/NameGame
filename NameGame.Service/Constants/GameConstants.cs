@@ -1,7 +1,5 @@
-﻿namespace NameGame.Service.Constants
-{
-    public static class GameConstants
-    {
+﻿namespace NameGame.Service.Constants {
+    public static class GameConstants {
         public static readonly string NameToFacesChallengeDescription = "Identify which face does this name belong to.";
         public static readonly string FaceToNamesChallengeDescription = "Identify which name does this face belong to.";
         public static readonly string NoChallengeValidationResult = "The challenge with this ID was not found.";

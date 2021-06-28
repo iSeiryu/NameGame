@@ -4,10 +4,8 @@ using NameGame.Service.Models.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NameGame.Service.Services.Interfaces
-{
-    public interface IGameResourceService
-    {
+namespace NameGame.Service.Services.Interfaces {
+    public interface IGameResourceService {
         Task<Challenge> GetChallenge(int id);
         Task<List<Challenge>> GetChallenges();
         Task<NameToFacesChallenge> CreateNameToFacesChallenge(ChallengeRequest request);

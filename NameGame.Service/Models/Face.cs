@@ -1,9 +1,6 @@
-﻿namespace NameGame.Service.Models
-{
-    public class Face
-    {
-        public Face(string id, string imageUrl)
-        {
+﻿namespace NameGame.Service.Models {
+    public class Face {
+        public Face(string id, string imageUrl) {
             Id = id;
             ImageUrl = imageUrl;
         }

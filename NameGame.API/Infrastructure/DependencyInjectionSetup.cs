@@ -8,12 +8,9 @@ using System.Net.Http.Headers;
 using NameGame.Persistence.Repositories;
 using NameGame.Persistence.Repositories.Interfaces;
 
-namespace NameGame.API.Infrastructure
-{
-    public static class DependencyInjectionServiceCollectionExtensions
-    {
-        public static IServiceCollection SetupDependencyInjection(this IServiceCollection services, IConfiguration configuration)
-        {
+namespace NameGame.API.Infrastructure {
+    public static class DependencyInjectionServiceCollectionExtensions {
+        public static IServiceCollection SetupDependencyInjection(this IServiceCollection services, IConfiguration configuration) {
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IGameResourceService, GameResourceService>();
             services.AddTransient<IStatisticsService, StatisticsService>();
@@ -25,10 +22,8 @@ namespace NameGame.API.Infrastructure
             return services;
         }
 
-        private static HttpClient CreateHttpClient(string endPointName, IConfiguration configuration)
-        {
-            var client = new HttpClient
-            {
+        private static HttpClient CreateHttpClient(string endPointName, IConfiguration configuration) {
+            var client = new HttpClient {
                 BaseAddress = new Uri(configuration.GetSection(endPointName).Value)
             };
 

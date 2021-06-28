@@ -1,16 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NameGame.Persistence.Models
-{
-    public class Challenge
-    {
-        public Challenge()
-        {
+namespace NameGame.Persistence.Models {
+    public class Challenge {
+        public Challenge() {
         }
 
-        public Challenge(int userId, string correctAnswer)
-        {
+        public Challenge(int userId, string correctAnswer) {
             UserId = userId;
             CorrectAnswer = correctAnswer;
             CreatedDate = DateTime.Now;

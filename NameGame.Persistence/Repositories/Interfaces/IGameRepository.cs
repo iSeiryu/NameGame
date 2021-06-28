@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NameGame.Persistence.Repositories.Interfaces
-{
-    public interface IGameRepository
-    {
+namespace NameGame.Persistence.Repositories.Interfaces {
+    public interface IGameRepository {
         Task<Challenge> GetChallenge(int challengeId);
         Task<List<Challenge>> GetChallenges();
         Task<int> CreateChallenge(string correctAnswer, int userId);

@@ -5,20 +5,17 @@ using NameGame.Service.Services.Interfaces;
 using System;
 using System.Net;
 
-namespace NameGame.API.Controllers
-{
+namespace NameGame.API.Controllers {
     /// <summary>
     /// A set of endpoints to get the Name Game statistics
     /// </summary>
     [Route("[controller]/[action]")]
     [ApiController]
-    public class StatisticsController : ControllerBase
-    {
+    public class StatisticsController : ControllerBase {
         private readonly IStatisticsService _statisticsService;
         private readonly ILogger<GameController> _logger;
 
-        public StatisticsController(IStatisticsService statisticsService, ILogger<GameController> logger)
-        {
+        public StatisticsController(IStatisticsService statisticsService, ILogger<GameController> logger) {
             _statisticsService = statisticsService;
             _logger = logger;
         }
@@ -32,21 +29,17 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public ActionResult<int> GetLastAttempts(string userName)
-        {
-            try
-            {
+        public ActionResult<int> GetLastAttempts(string userName) {
+            try {
                 var (success, errorMessage) = ValidateInput(userName);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
 
                 return Ok(_statisticsService.GetLastAttempts(userName));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.SomethingWentWrongWithStatistics);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.SomethingWentWrongWithStatistics);
             }
@@ -61,21 +54,17 @@ namespace NameGame.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public ActionResult<TimeSpan?> HowLongDidLastChallengeTake(string userName)
-        {
-            try
-            {
+        public ActionResult<TimeSpan?> HowLongDidLastChallengeTake(string userName) {
+            try {
                 var (success, errorMessage) = ValidateInput(userName);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
 
                 return Ok(_statisticsService.HowLongDidLastChallengeTake(userName));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.SomethingWentWrongWithStatistics);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.SomethingWentWrongWithStatistics);
             }
@@ -88,14 +77,11 @@ namespace NameGame.API.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public ActionResult<TimeSpan?> AverageTimeToSolveChallenge()
-        {
-            try
-            {
+        public ActionResult<TimeSpan?> AverageTimeToSolveChallenge() {
+            try {
                 return Ok(_statisticsService.AverageTimeToSolveChallenge());
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.SomethingWentWrongWithStatistics);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.SomethingWentWrongWithStatistics);
             }
@@ -109,28 +95,23 @@ namespace NameGame.API.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public ActionResult<TimeSpan?> AverageTimeUserSolvesChallenge(string userName)
-        {
-            try
-            {
+        public ActionResult<TimeSpan?> AverageTimeUserSolvesChallenge(string userName) {
+            try {
                 var (success, errorMessage) = ValidateInput(userName);
-                if (!success)
-                {
+                if (!success) {
                     _logger.LogWarning(errorMessage);
                     return BadRequest(errorMessage);
                 }
 
                 return Ok(_statisticsService.AverageTimeToSolveChallenge(userName));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 _logger.LogError(ex, ErrorMessages.SomethingWentWrongWithStatistics);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.SomethingWentWrongWithStatistics);
             }
         }
 
-        private (bool, string) ValidateInput(string userName)
-        {
+        private (bool, string) ValidateInput(string userName) {
             if (string.IsNullOrEmpty(userName))
                 return (false, string.Format(ErrorMessages.ValueIsEmpty, nameof(userName)));
 

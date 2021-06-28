@@ -6,26 +6,21 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NameGame.Persistence.Repositories
-{
-    public class UserRepository : IUserRepository
-    {
+namespace NameGame.Persistence.Repositories {
+    public class UserRepository : IUserRepository {
         private readonly NameGameContext _context;
 
-        public UserRepository(NameGameContext context)
-        {
+        public UserRepository(NameGameContext context) {
             _context = context;
         }
 
-        public async Task<int> GetOrCreateUser(string userName)
-        {
+        public async Task<int> GetOrCreateUser(string userName) {
             var userId = await _context.Users
                 .Where(x => x.Name == userName)
                 .Select(x => x.Id)
                 .FirstOrDefaultAsync().ConfigureAwait(false);
 
-            if (userId < 1)
-            {
+            if (userId < 1) {
                 var user = new User() { Name = userName, CreatedDate = DateTime.Now };
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync().ConfigureAwait(false);

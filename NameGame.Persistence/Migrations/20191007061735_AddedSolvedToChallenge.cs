@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace NameGame.Persistence.Migrations
-{
-    public partial class AddedSolvedToChallenge : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+namespace NameGame.Persistence.Migrations {
+    public partial class AddedSolvedToChallenge : Migration {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.AddColumn<bool>(
                 name: "Solved",
                 table: "Challenges",
@@ -13,8 +10,7 @@ namespace NameGame.Persistence.Migrations
                 defaultValue: false);
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropColumn(
                 name: "Solved",
                 table: "Challenges");
