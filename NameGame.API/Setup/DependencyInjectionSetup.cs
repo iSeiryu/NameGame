@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using NameGame.Persistence.Repositories;
 using NameGame.Persistence.Repositories.Interfaces;
 
-namespace NameGame.API.Infrastructure {
+namespace NameGame.Api.Infrastructure {
     public static class DependencyInjectionServiceCollectionExtensions {
         public static IServiceCollection SetupDependencyInjection(this IServiceCollection services, IConfiguration configuration) {
             services.AddTransient<IGameService, GameService>();

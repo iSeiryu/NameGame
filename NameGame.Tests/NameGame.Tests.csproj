@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NameGame.API\NameGame.API.csproj" />
+    <ProjectReference Include="..\NameGame.Api\NameGame.Api.csproj" />
     <ProjectReference Include="..\NameGame.Service\NameGame.Service.csproj" />
   </ItemGroup>
 

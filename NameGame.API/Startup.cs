@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NameGame.API.Infrastructure;
-using NameGame.API.Setup;
+using NameGame.Api.Setup;
+using NameGame.Api.Infrastructure;
 using NameGame.Persistence.DbContexts;
 
 namespace NameGame {

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NameGame.API.Constants;
+using NameGame.Api.Constants;
 using NameGame.Service.Services.Interfaces;
 using System;
 using System.Net;
 
-namespace NameGame.API.Controllers {
+namespace NameGame.Api.Controllers {
     /// <summary>
     /// A set of endpoints to get the Name Game statistics
     /// </summary>

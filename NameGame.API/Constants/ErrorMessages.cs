@@ -1,4 +1,4 @@
-﻿namespace NameGame.API.Constants {
+namespace NameGame.Api.Constants {
     public static class ErrorMessages {
         public static readonly string CreatingNewChallenge = "An error occured while creating a new challenge.";
         public static readonly string GeneralGameError = "An error occured while accessing game resourse.";

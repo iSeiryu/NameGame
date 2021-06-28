@@ -6,7 +6,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace NameGame.API.Setup {
+namespace NameGame.Api.Setup {
     public static class Swagger {
         public static void AddSwagger(this IServiceCollection services) {
             services.AddSwaggerGen(options => {
