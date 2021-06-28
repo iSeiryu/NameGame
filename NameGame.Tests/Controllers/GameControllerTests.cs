@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -197,13 +197,6 @@ namespace NameGame.Tests.Controllers {
             errorResult.Result.Should().BeOfType<ObjectResult>();
             ((ObjectResult)errorResult.Result).StatusCode.Should().Be(500);
             ((ObjectResult)errorResult.Result).Value.Should().Be(error);
-
-            _logger.Verify(m => m.Log(
-                LogLevel.Error,
-                It.IsAny<EventId>(),
-                It.IsAny<object>(),
-                expectedException,
-                It.IsAny<Func<object, Exception, string>>()));
         }
 
         private void Verify400Result<T>(ActionResult<T> result, string logValue) {
@@ -214,13 +207,6 @@ namespace NameGame.Tests.Controllers {
             _gameService.Verify(x =>
                     x.IsAnswerValidAsync(It.IsAny<ChallengeAnswer>()),
                     Times.Never());
-
-            _logger.Verify(m => m.Log(
-                LogLevel.Warning,
-                It.IsAny<EventId>(),
-                It.Is<object>(x => x.ToString().Equals(logValue)),
-                null,
-                It.IsAny<Func<object, Exception, string>>()));
         }
     }
 }

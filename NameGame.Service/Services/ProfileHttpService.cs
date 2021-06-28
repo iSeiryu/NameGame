@@ -1,7 +1,7 @@
-﻿using NameGame.Service.Services.Interfaces;
-using Newtonsoft.Json;
+using NameGame.Service.Services.Interfaces;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace NameGame.Service.Services {
     public class ProfileHttpService : IProfileHttpService {
@@ -18,7 +18,7 @@ namespace NameGame.Service.Services {
                 throw new HttpRequestException($"External API returned error. {response.ReasonPhrase}. {await response.Content.ReadAsStringAsync()}");
 
             var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<T>(result);
+            return JsonSerializer.Deserialize<T>(result);
         }
     }
 }

@@ -1,21 +1,21 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace NameGame.Service.Models.Dto {
     public class Profile {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
-        [JsonProperty("firstName")]
+        [JsonPropertyName("firstName")]
         public string FirstName { get; set; }
-        [JsonProperty("lastName")]
+        [JsonPropertyName("lastName")]
         public string LastName { get; set; }
-        [JsonProperty("headshot")]
+        [JsonPropertyName("headshot")]
         public Image Image { get; set; }
     }
 
     public class Image {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
     }
 }
